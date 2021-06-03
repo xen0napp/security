@@ -8,7 +8,11 @@ namespace client
     class anti_vm
     {
     private:
-
+        /**
+        * Looks for a process.
+        * @param name Name of the target process.
+        * @return A boolean, true if found, false if not.
+        */
         bool find(const char* name)
         {
             PROCESSENTRY32 entry;
@@ -30,7 +34,11 @@ namespace client
             LI_FN(CloseHandle).safe()(snapshot);
             return false;
         }
-
+        
+        /**
+        * Puts a string to lowercase.
+        * @param input A ptr to the char array.
+        */
         void to_lower(unsigned char* input)
         {
             char* p = (char*)input;
@@ -38,16 +46,28 @@ namespace client
             for (unsigned long i = 0; i < length; i++) p[i] = tolower(p[i]);
         }
     public:
+        /**
+        * Checks for QEMU process.
+        * @return find's response.
+        */
         int qemu()
         {
             return find(_xor_("qemu-ga.exe").c_str());
         }
-
+           
+        /**
+        * Checks for Xen process.
+        * @return find's response.
+        */
         int xen()
         {
             return find(_xor_("xenservice.exe").c_str());
         }
-
+        
+        /**
+        * Checks for a virtualbox registry key
+        * @return RegOpenKey's response.
+        */
         int vbox_registry()
         {
             HKEY h_key = 0;
@@ -55,7 +75,10 @@ namespace client
 
             return false;
         }
-
+        
+        /**
+        * Checks for a virtualbox drivers, dll's, and some registry keys.
+        */
         int vbox()
         {
             if (LI_FN(CreateFileA).safe()(_xor_("\\\\.\\VBoxMiniRdrDN").c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, 0, OPEN_EXISTING, 0, 0) != INVALID_HANDLE_VALUE) { return true; }
@@ -107,6 +130,10 @@ namespace client
             }
         }
 
+        /**
+        * Checks for VMWare processes
+        * @return RegOpenKey's response.
+        */
         int vmware()
         {
             bool state = find(_xor_("vmtoolsd.exe").c_str());
@@ -116,7 +143,10 @@ namespace client
             state = find(_xor_("vmacthlp.exe").c_str());
             return state;
         }
-
+        
+        /**
+        * Checks for wine function in kernel32.dll
+        */
         int wine()
         {
             const auto kernel32 = GetModuleHandle(_xor_("kernel32.dll").c_str());
