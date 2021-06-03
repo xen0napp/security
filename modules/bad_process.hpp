@@ -12,7 +12,11 @@ namespace client
     class bad_processes
     {
     private:
-
+        /**
+        * Looks for a process.
+        * @param name Name of the target process.
+        * @return A boolean, true if found, false if not.
+        */
         bool find(const char* name)
         {
             PROCESSENTRY32 entry;
@@ -35,6 +39,10 @@ namespace client
             return false;
         }
     public:
+        /**
+        * Checks for bad processes
+        * @return Checks a bunch of processes and returns boolean containing status.
+        */
         int check()
         {
             std::vector<char*> processes {
