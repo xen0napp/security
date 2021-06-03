@@ -9,3 +9,6 @@ A simple library for secure applications contains a variety of checks.
 * IDA history
 * lazy importer (@JustasMasiulis)
 * xor_string
+
+# copyright
+this is protected with the MIT license, feel free to use it but do not sell it.
