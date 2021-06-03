@@ -8,6 +8,9 @@ namespace client
 	class anti_dump
 	{
 	public:
+		/**
+		* Magnifies the size of the image in PEB.
+		*/
 		int null_size()
 		{
 			const auto peb 
