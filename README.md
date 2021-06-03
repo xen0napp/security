@@ -1,7 +1,7 @@
-# security
+# Security Library
 A simple library for secure applications contains a variety of checks.
 
-# modules
+# Modules
 * Anti dump
 * Anti VM
 * Blacklisted processes
@@ -10,5 +10,5 @@ A simple library for secure applications contains a variety of checks.
 * lazy importer (@JustasMasiulis)
 * xor_string
 
-# copyright
+# Copyright
 this is protected with the MIT license, feel free to use it but do not sell it.
