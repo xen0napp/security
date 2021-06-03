@@ -10,6 +10,10 @@ namespace client
 	class ida
 	{
 	public:
+		/**
+		* Checks the history of opened files in IDA.
+		* @return Boolean containing true or false depending on history.
+		*/
 		auto check_history() -> bool
 		{
 			char CurrentLocation[MAX_PATH];
