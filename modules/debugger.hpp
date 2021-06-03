@@ -11,20 +11,32 @@ namespace client
 		typedef NTSTATUS(__stdcall* _NtQueryInformationProcess)(_In_ HANDLE, _In_  unsigned int, _Out_ PVOID, _In_ ULONG, _Out_ PULONG);
 		typedef NTSTATUS(__stdcall* _NtSetInformationThread)(_In_ HANDLE, _In_ THREAD_INFORMATION_CLASS, _In_ PVOID, _In_ ULONG);
 	public:
+		/**
+		* Checks if a debugger is present via the Windows API.
+		* @return Integer containing returned value of the windows api call.
+		*/
 		int is_present()
 		{
 			return LI_FN(IsDebuggerPresent).safe()();
 		}
-
+		
+		/**
+		* Outputs to the debug console and checks if there is last error (An error occurs if no debugger is attached and outputting)
+		* @return Integer containing returned value of the windows api call.
+		*/
 		int debug_string()
 		{
 			LI_FN(SetLastError).safe()(0);
-			LI_FN(OutputDebugStringA).safe()(_xor_("You're a shitty debug negro.").c_str());
+			LI_FN(OutputDebugStringA).safe()(_xor_("xen0n.app security").c_str());
 			const auto last_error = LI_FN(GetLastError).safe()();
 			
 			return last_error != 0;
 		}
-
+		
+		/**
+		* Hides the current thread from debugger.
+		* @return Boolean returning status.
+		*/
 		int hide_thread()
 		{
 			unsigned long thread_hide_from_debugger = 0x11;
@@ -45,9 +57,13 @@ namespace client
 
 			(_NtSetInformationThread)(GetCurrentThread(), thread_hide_from_debugger, 0, 0, 0);
 
-			return false;
+			return true;
 		}
 
+		/**
+		* Checks if a remote debugger is present in the current appliction.
+		* @return Integer containing returned value of the windows api call.
+		*/
 		int remote_is_present()
 		{
 			int debugger_present = false;
@@ -58,7 +74,11 @@ namespace client
 
 			return debugger_present;
 		}
-
+		
+		/**
+		* Checks the thread context.
+		* @return Status of thread contexts.
+		*/
 		int thread_context()
 		{
 			int found = false;
